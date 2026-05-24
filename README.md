@@ -83,43 +83,6 @@ Buka di browser: `http://127.0.0.1:8000`
 
 ---
 
-## 👥 Akun Default
-
-| Role  | Email             | Password |
-|-------|-------------------|----------|
-| Admin | admin@example.com | password |
-| User  | user@example.com  | password |
-
----
-
-## 📁 Struktur Folder Penting
-
-```
-app/
-├── Http/Controllers/
-│   ├── Admin/          # Controller sisi admin
-│   └── User/           # Controller sisi user
-├── Models/             # Eloquent models
-├── Repositories/       # Repository pattern
-└── Interfaces/         # Repository interfaces
-
-resources/views/
-├── layouts/            # Layout utama (admin & app)
-├── pages/
-│   ├── admin/          # Halaman admin
-│   └── app/            # Halaman user
-└── includes/           # Komponen (navbar, sidebar, dll)
-
-public/assets/
-├── admin/              # Asset dashboard admin
-└── app/                # Asset aplikasi user (CSS, JS, Lottie)
-```
-
----
-
-## 📸 Screenshot
-
-> *Tambahkan screenshot aplikasi di sini*
 
 ---
 
