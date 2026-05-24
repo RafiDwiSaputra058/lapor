@@ -1,61 +1,128 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📢 Lapor Pak — Aplikasi Pengaduan Fasilitas Umum
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Lapor Pak adalah aplikasi berbasis web untuk memudahkan warga dalam melaporkan kerusakan atau masalah fasilitas umum di lingkungan sekitar. Laporan dapat dipantau perkembangannya secara real-time oleh pelapor.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Fitur
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👤 Sisi User
+- **Beranda** — Melihat kategori laporan dan laporan terbaru dari seluruh warga
+- **Kamera** — Membuat laporan dengan mengambil foto terlebih dahulu, lalu mengonfirmasi sebelum mengisi form
+- **Form Laporan** — Mengisi judul, kategori, deskripsi, dan lokasi otomatis via GPS
+- **Laporanmu** — Melihat riwayat laporan pribadi yang dikelompokkan berdasarkan status (Terkirim, Diproses, Selesai, Ditolak)
+- **Detail Laporan** — Melihat detail laporan beserta riwayat perkembangan status
+- **Profil** — Informasi akun dan tombol logout
+- **Daftar & Login** — Registrasi akun baru dengan foto profil dan login untuk mengakses fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🛠️ Sisi Admin
+- **Data User** — Manajemen data pengguna (CRUD)
+- **Data Kategori** — Manajemen kategori laporan seperti Infrastruktur, Lingkungan, Keamanan, Kesehatan (CRUD)
+- **Data Laporan** — Manajemen seluruh laporan yang masuk dari warga (CRUD)
+- **Status Laporan** — Memperbarui status laporan (Pending, In Progress, Selesai, Ditolak) beserta bukti foto dan deskripsi progres
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🛠️ Teknologi
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Backend** — Laravel 11
+- **Frontend** — Bootstrap 5, Leaflet.js, Lottie
+- **Database** — MySQL
+- **Storage** — Laravel Storage (public disk)
+- **Map** — OpenStreetMap + Nominatim (reverse geocoding)
+- **Auth** — Laravel built-in authentication
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## ⚙️ Instalasi
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 1. Clone repository
+```bash
+git clone https://github.com/username/lapor-pak.git
+cd lapor-pak
+```
 
-### Premium Partners
+### 2. Install dependencies
+```bash
+composer install
+npm install
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. Konfigurasi environment
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Contributing
+Edit file `.env` sesuaikan database:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=lapor_pak
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Migrasi & seeder
+```bash
+php artisan migrate --seed
+```
 
-## Code of Conduct
+### 5. Storage link
+```bash
+php artisan storage:link
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 6. Jalankan aplikasi
+```bash
+php artisan serve
+```
 
-## Security Vulnerabilities
+Buka di browser: `http://127.0.0.1:8000`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 👥 Akun Default
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Role  | Email             | Password |
+|-------|-------------------|----------|
+| Admin | admin@example.com | password |
+| User  | user@example.com  | password |
+
+---
+
+## 📁 Struktur Folder Penting
+
+```
+app/
+├── Http/Controllers/
+│   ├── Admin/          # Controller sisi admin
+│   └── User/           # Controller sisi user
+├── Models/             # Eloquent models
+├── Repositories/       # Repository pattern
+└── Interfaces/         # Repository interfaces
+
+resources/views/
+├── layouts/            # Layout utama (admin & app)
+├── pages/
+│   ├── admin/          # Halaman admin
+│   └── app/            # Halaman user
+└── includes/           # Komponen (navbar, sidebar, dll)
+
+public/assets/
+├── admin/              # Asset dashboard admin
+└── app/                # Asset aplikasi user (CSS, JS, Lottie)
+```
+
+---
+
+## 📸 Screenshot
+
+> *Tambahkan screenshot aplikasi di sini*
+
+---
+
+## 📄 Lisensi
+
+Project ini dibuat untuk keperluan pembelajaran. Bebas digunakan dan dimodifikasi.
