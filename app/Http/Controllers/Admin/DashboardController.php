@@ -11,7 +11,19 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('pages.admin.dashboard');
+        // Ambil data laporan yang punya koordinat untuk ditampilkan di peta
+        $reports = Report::whereNotNull('latitude')->whereNotNull('longitude')->get();
+
+        // Lempar datanya ke piring dashboard
+        return view('pages.admin.dashboard', compact('reports'));
+    }
+
+    public function map()
+    {
+        // Hanya ambil laporan yang punya data latitude dan longitude
+        $reports = Report::whereNotNull('latitude')->whereNotNull('longitude')->get();
+
+        return view('pages.admin.map', compact('reports'));
     }
 
     // Fungsi baru untuk AI Summary Generator

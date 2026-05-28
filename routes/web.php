@@ -52,4 +52,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/report-status/{reportId}/create', [ReportStatusController::class, 'create'])->name('report-status.create');
     Route::resource('/report-status', ReportStatusController::class)->except(['create']);
     Route::get('/generate-summary', [\App\Http\Controllers\Admin\DashboardController::class, 'generateSummary'])->name('summary');
+    Route::get('/map', [\App\Http\Controllers\Admin\DashboardController::class, 'map'])->name('map');
 });
