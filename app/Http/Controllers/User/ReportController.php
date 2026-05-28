@@ -8,6 +8,7 @@ use App\Interfaces\ReportRepositoryInterface;
 use App\Interfaces\ReportCategoryRepositoryInterface;
 use App\Http\Requests\StoreReportRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Services\AIService;
 
 
 
@@ -16,12 +17,16 @@ class ReportController extends Controller
 
     private ReportRepositoryInterface $reportRepository;
     private ReportCategoryRepositoryInterface $reportCategoryRepository;
+    private AIService $aiService;
 
-    public function __construct(ReportRepositoryInterface $reportRepository, ReportCategoryRepositoryInterface $reportCategoryRepository)
-    {
-
+    public function __construct(
+        ReportRepositoryInterface $reportRepository,
+        ReportCategoryRepositoryInterface $reportCategoryRepository,
+        AIService $aiService
+    ) {
         $this->reportRepository = $reportRepository;
         $this->reportCategoryRepository = $reportCategoryRepository;
+        $this->aiService = $aiService;
     }
 
 
@@ -71,15 +76,31 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request)
     {
         $data = $request->validated();
-
         $data['code'] = 'PAKLAPOR' . mt_rand(100000, 999999);
         $data['resident_id'] = Auth::user()->resident->id;
         $data['image'] = $request->file('image')->store('assets/report/image', 'public');
 
+        // Analisis AI
+        $aiResult = $this->aiService->analyzeDamage($data['image']);
+        $data['ai_infrastructure_type'] = $aiResult['infrastructure_type'];
+        $data['ai_severity']            = $aiResult['severity'];
+        $data['ai_suggested_category']  = $aiResult['suggested_category'];
+        $data['ai_reasoning']           = $aiResult['reasoning'];
 
         $this->reportRepository->createReport($data);
 
         return redirect()->route('report.success');
+    }
+
+
+    public function analyzeImage(Request $request)
+    {
+        $request->validate(['image' => 'required|image|max:5120']);
+
+        $path = $request->file('image')->store('assets/report/temp', 'public');
+        $result = $this->aiService->analyzeDamage($path);
+
+        return response()->json($result);
     }
 
     public function success()

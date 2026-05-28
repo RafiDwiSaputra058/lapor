@@ -18,7 +18,12 @@ class Report extends Model
         'image',
         'latitude',
         'longitude',
-        'address'
+        'address',
+        'ai_infrastructure_type',
+        'ai_severity',
+        'ai_suggested_category',
+        'ai_reasoning',
+        'urgency_score',
     ];
     //satu laporan dimiliki oleh satu resident
     public function resident()

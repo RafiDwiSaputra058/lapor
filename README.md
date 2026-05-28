@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 # 📢 Lapor Pak — Aplikasi Pengaduan Fasilitas Umum
+=======
+<<<<<<< HEAD
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+>>>>>>> 546867b13341d5143545556aa08380ef1025402d
 
 Lapor Pak adalah aplikasi berbasis web untuk memudahkan warga dalam melaporkan kerusakan atau masalah fasilitas umum di lingkungan sekitar. Laporan dapat dipantau perkembangannya secara real-time oleh pelapor.
 
@@ -84,8 +89,15 @@ Buka di browser: `http://127.0.0.1:8000`
 ---
 
 
+<<<<<<< HEAD
 ---
 
 ## 📄 Lisensi
 
 Project ini dibuat untuk keperluan pembelajaran. Bebas digunakan dan dimodifikasi.
+=======
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+=======
+# Lapor
+>>>>>>> 040d5bc5ae5730ff145b0970dec7b98f1491ca0e
+>>>>>>> 546867b13341d5143545556aa08380ef1025402d
