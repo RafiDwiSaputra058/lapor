@@ -20,6 +20,8 @@ Route::get('/reports', [UserReportController::class, 'index'])->name('report.ind
 Route::get('/report/{code}', [UserReportController::class, 'show'])->name('report.show');
 
 
+Route::post('/report/analyze-image', [App\Http\Controllers\User\ReportController::class, 'analyzeImage'])->name('report.analyze');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/take-report', [UserReportController::class, 'take'])->name('report.take');
     Route::get('/preview', [UserReportController::class, 'preview'])->name('report.preview');

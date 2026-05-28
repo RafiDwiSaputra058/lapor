@@ -69,6 +69,49 @@
 </div>
 
 
+@if($report->ai_infrastructure_type)
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex align-items-center gap-2">
+        <h6 class="m-0 font-weight-bold text-primary">🤖 Analisis AI</h6>
+        <span class="badge bg-success ms-auto">Powered by Llama via Groq</span>
+    </div>
+    <div class="card-body">
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <div class="p-3 rounded text-center" style="background:#f0f7ff;">
+                    <div class="text-muted small mb-1">Jenis Infrastruktur</div>
+                    <div class="fw-bold text-capitalize">🏗️ {{ $report->ai_infrastructure_type }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 rounded text-center" style="background:
+                    @if($report->ai_severity == 'Berat') #fff0f0
+                    @elseif($report->ai_severity == 'Sedang') #fffbe6
+                    @else #f0fff4 @endif;">
+                    <div class="text-muted small mb-1">Tingkat Kerusakan</div>
+                    <div class="fw-bold
+                        @if($report->ai_severity == 'Berat') text-danger
+                        @elseif($report->ai_severity == 'Sedang') text-warning
+                        @else text-success @endif">
+                        ⚠️ {{ $report->ai_severity }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 rounded text-center" style="background:#f5f0ff;">
+                    <div class="text-muted small mb-1">Saran Kategori</div>
+                    <div class="fw-bold text-primary">📂 {{ $report->ai_suggested_category }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="p-3 rounded" style="background:#f8f9fa; border-left: 4px solid #4e73df;">
+            <div class="text-muted small mb-1">Reasoning AI</div>
+            <div>{{ $report->ai_reasoning }}</div>
+        </div>
+    </div>
+</div>
+@endif
+
 
 <div class="card shadow mb-5">
     <div class="card-header py-3">

@@ -111,6 +111,48 @@
     </div>
 </div>
 
+
+@if($report->ai_infrastructure_type)
+<div class="card card-report-information mt-4">
+    <div class="card-body">
+        <div class="card-title mb-4 fw-bold">🤖 Analisis AI</div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-secondary">Infrastruktur</div>
+            <div class="col-8 d-flex">
+                <span class="me-2">:</span>
+                <p class="text-capitalize">🏗️ {{ $report->ai_infrastructure_type }}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-secondary">Kerusakan</div>
+            <div class="col-8 d-flex">
+                <span class="me-2">:</span>
+                <p>
+                    @if($report->ai_severity == 'Berat')
+                    <span class="badge bg-danger">⚠️ Berat</span>
+                    @elseif($report->ai_severity == 'Sedang')
+                    <span class="badge bg-warning text-dark">⚠️ Sedang</span>
+                    @else
+                    <span class="badge bg-success">⚠️ Ringan</span>
+                    @endif
+                </p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-secondary">Keterangan</div>
+            <div class="col-8 d-flex">
+                <span class="me-2">:</span>
+                <p>{{ $report->ai_reasoning }}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+@endif
+
 <div class="card card-report-information mt-4">
     <div class="card-body">
         <div class="card-title mb-4 fw-bold">Riwayat Perkembangan</div>
