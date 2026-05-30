@@ -1,7 +1,13 @@
 <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #0a1a3a; position: sticky; top: 0; height: 100vh; overflow-y: auto; overflow-x: hidden; z-index: 1020;">
 
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
-        <div class="sidebar-brand-text mx-3">Lapor DPM</div>
+        {{-- Ikon Logo LaporIn (Tanpa margin-right agar saat minimize presisi di tengah) --}}
+        <div class="sidebar-brand-icon">
+            <img src="{{ asset('assets/admin/img/logo-laporin.png') }}" alt="Logo LaporIn" style="width: 35px; height: auto;">
+        </div>
+        
+        {{-- Teks "LaporIn" (Jarak margin dipindah ke sini pakai ml-2) --}}
+        <div class="sidebar-brand-text ml-2" style="text-transform: none; font-size: 1.3rem;">LaporIn</div>
     </a>
 
     <hr class="sidebar-divider my-0">
