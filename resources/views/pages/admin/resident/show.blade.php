@@ -7,14 +7,9 @@
 <!-- Header -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="fw-bold mb-0">Detail Warga</h4>
-    <div>
-        <a href="{{ route('admin.resident.edit', $resident->id) }}" class="btn btn-warning btn-sm">
-            <i class="fas fa-edit me-1"></i> Edit
-        </a>
-        <a href="{{ route('admin.resident.index') }}" class="btn btn-secondary btn-sm">
-            <i class="fas fa-arrow-left me-1"></i> Kembali
-        </a>
-    </div>
+    <a href="{{ route('admin.resident.index') }}" class="btn btn-danger btn-sm">
+        <i class="fas fa-arrow-left me-1"></i> Kembali
+    </a>
 </div>
 
 <div class="card shadow-sm">
@@ -43,6 +38,14 @@
                 </td>
             </tr>
         </table>
+        
+        <!-- Tombol Edit di bawah -->
+        <hr>
+        <div class="text-center">
+            <a href="{{ route('admin.resident.edit', $resident->id) }}" class="btn btn-warning">
+                <i class="fas fa-edit me-1"></i> Edit Data Warga
+            </a>
+        </div>
     </div>
 </div>
 

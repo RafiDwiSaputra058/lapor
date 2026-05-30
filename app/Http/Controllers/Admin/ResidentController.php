@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 use App\Interfaces\ResidentRepositoryInterface;
 use App\Http\Requests\UpdateResidentRequest;
 use RealRashid\SweetAlert\Facades\Alert as Swal;
-
-
+use App\Models\Resident;
 
 class ResidentController extends Controller
 {
@@ -27,8 +26,10 @@ class ResidentController extends Controller
      */
     public function index()
     {
-        $residents = $this->residentRepository->getAllResidents();
-
+        $residents = Resident::with('user')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);
+        
         return view('pages.admin.resident.index', compact('residents'));
     }
 
@@ -47,11 +48,13 @@ class ResidentController extends Controller
     {
         $data = $request->validated();
 
-        $data['avatar'] = $request->file('avatar')->store('assets/avatar', 'public');
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->store('assets/avatar', 'public');
+        }
 
         $this->residentRepository->createResident($data);
 
-        Swal::toast('Data berhasil ditambahkan', 'Succes')->timerProgressBar();
+        Swal::toast('Data berhasil ditambahkan', 'success')->timerProgressBar();
 
         return redirect()->route('admin.resident.index');
     }
@@ -83,12 +86,12 @@ class ResidentController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->avatar) {
+        if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')->store('assets/avatar', 'public');
         }
 
         $this->residentRepository->updateResident($data, $id);
-        Swal::toast('Data berhasil diupdate', 'Succes')->timerProgressBar();
+        Swal::toast('Data berhasil diupdate', 'success')->timerProgressBar();
 
         return redirect()->route('admin.resident.index');
     }
@@ -101,7 +104,7 @@ class ResidentController extends Controller
     {
         $this->residentRepository->deleteResident($id);
 
-        Swal::toast('Data berhasil dihapus', 'Succes')->timerProgressBar();
+        Swal::toast('Data berhasil dihapus', 'success')->timerProgressBar();
 
         return redirect()->route('admin.resident.index');
     }

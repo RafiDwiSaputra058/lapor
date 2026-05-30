@@ -99,7 +99,6 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex align-items-center gap-2">
         <h6 class="m-0 font-weight-bold text-primary">🤖 Analisis AI</h6>
-        <span class="badge bg-success ms-auto">Powered by Llama via Groq</span>
     </div>
     <div class="card-body">
         <div class="row g-3 mb-3">

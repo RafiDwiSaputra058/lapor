@@ -82,6 +82,42 @@ class AIService
         return $result;
     }
 
+    public function calculateUrgencyScore(array $aiResult, float $latitude, float $longitude): int
+{
+    $score = 0;
+
+    // 1. Severity Score
+    $severityScores = [
+        'Berat'  => 50,
+        'Sedang' => 30,
+        'Ringan' => 15,
+    ];
+    $score += $severityScores[$aiResult['severity']] ?? 0;
+
+    // 2. Crowdsource Score — laporan serupa dalam radius ~1km
+    $similarReports = \App\Models\Report::where('report_category_id', '!=', null)
+        ->where('ai_infrastructure_type', $aiResult['infrastructure_type'])
+        ->whereRaw("(
+            6371 * acos(
+                cos(radians(?)) * cos(radians(CAST(latitude AS FLOAT))) *
+                cos(radians(CAST(longitude AS FLOAT)) - radians(?)) +
+                sin(radians(?)) * sin(radians(CAST(latitude AS FLOAT)))
+            )
+        ) < 1", [$latitude, $longitude, $latitude])
+        ->count();
+
+    $crowdsourceScore = min($similarReports * 5, 25);
+    $score += $crowdsourceScore;
+
+    // 3. Safety Score — infrastruktur kritis
+    $criticalTypes = ['jalan', 'jembatan', 'drainase'];
+    if (in_array(strtolower($aiResult['infrastructure_type']), $criticalTypes)) {
+        $score += 25;
+    }
+
+    return min($score, 100);
+}
+
     private function defaultResult(): array
     {
         return [

@@ -87,10 +87,20 @@ class ReportController extends Controller
         $data['ai_suggested_category']  = $aiResult['suggested_category'];
         $data['ai_reasoning']           = $aiResult['reasoning'];
 
+        // Hitung urgency score
+$urgencyScore = $this->aiService->calculateUrgencyScore(
+    $aiResult,
+    (float) $data['latitude'],
+    (float) $data['longitude']
+);
+$data['urgency_score'] = $urgencyScore;
+
         $this->reportRepository->createReport($data);
 
         return redirect()->route('report.success');
     }
+
+
 
 
     public function analyzeImage(Request $request)

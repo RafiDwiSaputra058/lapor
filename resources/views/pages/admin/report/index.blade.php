@@ -25,12 +25,12 @@
 <!-- Statistik -->
 <div class="row g-3 mb-4">
     <div class="col-md-3">
-        <div class="card text-white" style="background-color: #36b9cc;">
+        <div class="card bg-primary text-white">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="mb-1">Total Laporan</h6>
-                        <h2 class="mb-0">{{ $reports->count() }}</h2>
+                        <h2 class="mb-0">{{ \App\Models\Report::count() }}</h2>
                     </div>
                     <i class="fas fa-file-alt fa-2x opacity-50"></i>
                 </div>
@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-white" style="background-color: #4e73df;">
+        <div class="card bg-primary text-white">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-white" style="background-color: #f6c23e;">
+        <div class="card bg-warning text-white">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
@@ -78,15 +78,41 @@
     </div>
 </div>
 
+<!-- Indikator Kedaruratan -->
+<div class="card bg-light mb-4 border-0 rounded-3">
+    <div class="card-body py-2">
+        <div class="d-flex gap-4 align-items-center flex-wrap">
+            <span class="fw-semibold small">Indikator Kedaruratan:</span>
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-circle text-danger" style="font-size: 0.7rem;"></i>
+                <span class="small">≥ 70 (Tinggi)</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-circle text-warning" style="font-size: 0.7rem;"></i>
+                <span class="small">40 - 69 (Sedang)</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-circle text-success" style="font-size: 0.7rem;"></i>
+                <span class="small">&lt; 40 (Rendah)</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Tabel -->
-<div class="card shadow-sm">
-    <div class="card-header bg-white">
+<div class="card shadow-sm rounded-4">
+    <div class="card-header bg-white rounded-top-4 py-3 border-0">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <h6 class="mb-0">Daftar Laporan</h6>
+                <h6 class="mb-0 fw-bold">Daftar Laporan</h6>
             </div>
             <div class="col-md-6">
-                <input type="text" id="search" class="form-control form-control-sm" placeholder="Cari pelapor atau judul...">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="fas fa-search text-muted"></i>
+                    </span>
+                    <input type="text" id="search" class="form-control border-start-0" placeholder="Cari pelapor atau judul...">
+                </div>
             </div>
         </div>
     </div>
@@ -99,42 +125,59 @@
                         <th>Pelapor</th>
                         <th>Kategori</th>
                         <th>Judul Laporan</th>
-                        <th>Bukti</th>
+                        <th>Tingkat</th>
+                        <th>Urgency</th>
                         <th>Status</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($reports as $report)
+                    @forelse ($reports as $index => $report)
                     @php
                         $lastStatus = $report->reportStatuses->last();
                         $status = $lastStatus->status ?? 'pending';
+                        $score = $report->urgency_score ?? 0;
                     @endphp
                     <tr id="row-{{ $report->id }}">
-                        <td class="px-3">{{ $loop->iteration }}</td>
+                        <td class="px-3 fw-semibold text-primary">{{ $reports->firstItem() + $index }}</td>
                         <td>{{ $report->resident->user->name ?? '-' }}</td>
-                        <td>{{ $report->reportCategory->name ?? '-' }}</td>
+                        <td>
+                            <span class="badge bg-light text-dark">{{ $report->reportCategory->name ?? '-' }}</span>
+                        </td>
                         <td>{{ Str::limit($report->title, 40) }}</td>
-                        <td class="text-center">
-                            @if($report->image)
-                                <img src="{{ asset('storage/'. $report->image) }}" width="35" height="35" class="rounded" style="object-fit: cover;">
+                        <td>
+                            @if($report->ai_severity == 'Berat')
+                                <span class="badge bg-danger text-white">Berat</span>
+                            @elseif($report->ai_severity == 'Sedang')
+                                <span class="badge bg-warning text-white">Sedang</span>
+                            @elseif($report->ai_severity == 'Ringan')
+                                <span class="badge bg-success text-white">Ringan</span>
                             @else
-                                <i class="fas fa-image text-secondary"></i>
+                                <span class="badge bg-secondary text-white">-</span>
                             @endif
                         </td>
                         <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="progress" style="width: 60px; height: 6px;">
+                                    <div class="progress-bar {{ $score >= 70 ? 'bg-danger' : ($score >= 40 ? 'bg-warning' : 'bg-success') }}" 
+                                         style="width: {{ $score }}%"></div>
+                                </div>
+                                <span class="fw-bold small">{{ $score }}</span>
+                            </div>
+                        </td>
+                        <td>
                             @if($status == 'pending')
-                                <span class="badge bg-warning text-white px-3 py-2">Pending</span>
+                                <span class="badge bg-warning text-white">Pending</span>
                             @elseif($status == 'in_progress')
-                                <span class="badge bg-primary text-white px-3 py-2">Diproses</span>
+                                <span class="badge bg-primary text-white">Diproses</span>
                             @elseif($status == 'completed')
-                                <span class="badge bg-success text-white px-3 py-2">Selesai</span>
+                                <span class="badge bg-success text-white">Selesai</span>
                             @else
-                                <span class="badge bg-secondary text-white px-3 py-2">{{ $status }}</span>
+                                <span class="badge bg-secondary text-white">{{ $status }}</span>
                             @endif
                         </td>
                         <td class="text-center">
-                            <div class="d-flex gap-3 justify-content-center">
+                            <div class="d-flex gap-2 justify-content-center">
                                 <a href="{{ route('admin.report.show', $report->id) }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i>
                                 </a>
@@ -147,11 +190,32 @@
                             </div>
                         </td>
                     </tr>
+                    
+                    <!-- Modal Delete -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered modal-sm">
+                            <div class="modal-content rounded-3">
+                                <div class="modal-body text-center p-4">
+                                    <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
+                                    <h5 class="fw-bold mb-2">Hapus Laporan?</h5>
+                                    <p class="text-muted small" id="deleteMessage">Yakin ingin menghapus laporan ini?</p>
+                                </div>
+                                <div class="modal-footer border-0 justify-content-center gap-2 pb-4">
+                                    <button type="button" class="btn btn-secondary btn-sm px-3 rounded-3" data-bs-dismiss="modal">Batal</button>
+                                    <form id="deleteForm" action="" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm px-3 rounded-3">Hapus</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">
-                            <i class="fas fa-file-alt mb-2 d-block"></i>
-                            Belum ada data laporan
+                        <td colspan="8" class="text-center py-5">
+                            <i class="fas fa-file-alt fa-4x text-muted mb-3 d-block"></i>
+                            <h6 class="text-muted">Belum ada data laporan</h6>
                         </td>
                     </tr>
                     @endforelse
@@ -159,22 +223,58 @@
             </table>
         </div>
     </div>
-    <div class="card-footer bg-white">
-        <small class="text-muted">Total: {{ $reports->count() }} laporan</small>
-    </div>
-</div>
-
-<!-- Modal Konfirmasi Hapus -->
-<div id="deleteModal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content">
-            <div class="modal-body text-center p-4">
-                <h5 class="fw-bold mb-3">Hapus Laporan?</h5>
-                <p class="text-muted mb-0" id="deleteMessage">Yakin ingin menghapus laporan ini?</p>
+    
+    <!-- Pagination -->
+    <div class="card-footer bg-white rounded-bottom-4 py-3">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div class="text-muted small">
+                <i class="fas fa-list me-1"></i>
+                Menampilkan <span class="fw-semibold text-primary">{{ $reports->firstItem() }}</span> 
+                - <span class="fw-semibold text-primary">{{ $reports->lastItem() }}</span> 
+                dari <span class="fw-semibold text-primary">{{ $reports->total() }}</span> laporan
             </div>
-            <div class="modal-footer border-0 justify-content-center gap-2 pb-4 pt-0">
-                <button type="button" class="btn btn-secondary btn-sm px-3" onclick="closeModal()">Batal</button>
-                <button type="button" class="btn btn-danger btn-sm px-3" id="confirmDeleteBtn">Hapus</button>
+            <div>
+                @if ($reports->hasPages())
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            @if ($reports->onFirstPage())
+                                <li class="page-item disabled">
+                                    <span class="page-link rounded-3"><i class="fas fa-chevron-left"></i></span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link rounded-3" href="{{ $reports->previousPageUrl() }}">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                            @endif
+                            
+                            @foreach ($reports->getUrlRange(1, $reports->lastPage()) as $page => $url)
+                                @if ($page == $reports->currentPage())
+                                    <li class="page-item active">
+                                        <span class="page-link rounded-3">{{ $page }}</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link rounded-3" href="{{ $url }}">{{ $page }}</a>
+                                    </li>
+                                @endif
+                            @endforeach
+                            
+                            @if ($reports->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link rounded-3" href="{{ $reports->nextPageUrl() }}">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="page-item disabled">
+                                    <span class="page-link rounded-3"><i class="fas fa-chevron-right"></i></span>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
+                @endif
             </div>
         </div>
     </div>
@@ -182,44 +282,14 @@
 
 <script>
     let deleteId = null;
-    let myModal = null;
 
     function showDeleteModal(id, title) {
         deleteId = id;
         document.getElementById('deleteMessage').innerHTML = 'Yakin ingin menghapus laporan <strong>' + title + '</strong>?';
-        myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        document.getElementById('deleteForm').action = '/admin/report/' + id;
+        var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
         myModal.show();
     }
-
-    function closeModal() {
-        if (myModal) {
-            myModal.hide();
-        }
-    }
-
-    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-        if (deleteId) {
-            var form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/admin/report/' + deleteId;
-            form.style.display = 'none';
-            
-            var csrf = document.createElement('input');
-            csrf.type = 'hidden';
-            csrf.name = '_token';
-            csrf.value = '{{ csrf_token() }}';
-            form.appendChild(csrf);
-            
-            var method = document.createElement('input');
-            method.type = 'hidden';
-            method.name = '_method';
-            method.value = 'DELETE';
-            form.appendChild(method);
-            
-            document.body.appendChild(form);
-            form.submit();
-        }
-    });
 </script>
 
 <script>
