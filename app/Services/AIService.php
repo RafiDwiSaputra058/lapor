@@ -51,7 +51,7 @@ class AIService
                         ],
                         [
                             'type' => 'text',
-                            'text' => $prompt
+                            'text' => $prompt // INI YANG BENAR, TADI SAYA TYPO DI SINI
                         ]
                     ]
                 ]
@@ -86,15 +86,15 @@ class AIService
     {
         $score = 0;
 
-        // 1. Severity Score
+        // 1. Severity Score — Dioptimalkan penuh agar sinkron dengan threshold visual UI Admin
         $severityScores = [
-            'Berat'  => 50,
-            'Sedang' => 30,
-            'Ringan' => 15,
+            'Berat'  => 70, // Otomatis mengunci posisi di zona merah (Tinggi)
+            'Sedang' => 45, // Mengunci posisi di zona kuning (Sedang)
+            'Ringan' => 20, // Mengunci posisi di zona hijau (Rendah)
         ];
         $score += $severityScores[$aiResult['severity']] ?? 0;
 
-        // 2. Crowdsource Score — laporan serupa dalam radius ~1km
+        // 2. Crowdsource Score — Laporan serupa dalam radius ~1km
         $similarReports = \App\Models\Report::where('report_category_id', '!=', null)
             ->where('ai_infrastructure_type', $aiResult['infrastructure_type'])
             ->whereRaw("(
@@ -106,13 +106,15 @@ class AIService
         ) < 1", [$latitude, $longitude, $latitude])
             ->count();
 
-        $crowdsourceScore = min($similarReports * 5, 25);
+        // Plafon disesuaikan menjadi max 15 agar distribusi nilai adil
+        $crowdsourceScore = min($similarReports * 5, 15);
         $score += $crowdsourceScore;
 
-        // 3. Safety Score — infrastruktur kritis
-        $criticalTypes = ['jalan', 'jembatan', 'drainase'];
+        // 3. Safety Score — Infrastruktur Kritis
+        // Memasukkan 'fasilitas umum' & 'trotoar' agar ruko roboh/gedung rusak terdeteksi sebagai bahaya keselamatan
+        $criticalTypes = ['jalan', 'jembatan', 'drainase', 'fasilitas umum', 'trotoar'];
         if (in_array(strtolower($aiResult['infrastructure_type']), $criticalTypes)) {
-            $score += 25;
+            $score += 15; // Ditambah 15 poin (Total maksimal jika Berat + Ramai + Kritis = 70 + 15 + 15 = 100)
         }
 
         return min($score, 100);
