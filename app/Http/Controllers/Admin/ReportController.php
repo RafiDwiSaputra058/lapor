@@ -38,11 +38,31 @@ class ReportController extends Controller
         
         // 2. Hitung statistik untuk Kartu (Card) di bagian atas
         $totalLaporan = Report::count();
-        $selesai = ReportStatus::where('status', 'completed')->count();
-        $diproses = ReportStatus::where('status', 'in_progress')->count();
         
-        // Logika Pending: Total Laporan dikurangi yang sudah diproses & selesai
-        $pending = $totalLaporan - ($selesai + $diproses);
+        // Hitung Selesai (Hanya yang status TERAKHIRNYA 'completed')
+        $selesai = Report::whereHas('reportStatuses', function($query) {
+            $query->where('status', 'completed')
+                  ->whereIn('id', function($subquery) {
+                      $subquery->selectRaw('MAX(id)')->from('report_statuses')->groupBy('report_id');
+                  });
+        })->count();
+
+        // Hitung Diproses (Hanya yang status TERAKHIRNYA 'in_progress')
+        $diproses = Report::whereHas('reportStatuses', function($query) {
+            $query->where('status', 'in_progress')
+                  ->whereIn('id', function($subquery) {
+                      $subquery->selectRaw('MAX(id)')->from('report_statuses')->groupBy('report_id');
+                  });
+        })->count();
+        
+        // Hitung Pending (Status TERAKHIRNYA 'pending' ATAU laporan baru yang belum punya status)
+        $pending = Report::whereDoesntHave('reportStatuses')
+                   ->orWhereHas('reportStatuses', function($query) {
+                       $query->where('status', 'pending')
+                             ->whereIn('id', function($subquery) {
+                                 $subquery->selectRaw('MAX(id)')->from('report_statuses')->groupBy('report_id');
+                             });
+                   })->count();
         
         // 3. Kirim semua variabel hitungan ke file Blade
         return view('pages.admin.report.index', compact('reports', 'totalLaporan', 'selesai', 'diproses', 'pending'));
