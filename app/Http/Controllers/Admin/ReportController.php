@@ -10,12 +10,11 @@ use App\Interfaces\ResidentRepositoryInterface;
 use App\Http\Requests\StoreReportRequest;
 use RealRashid\SweetAlert\Facades\Alert as Swal;
 use App\Http\Requests\UpdateReportRequest;
-
+use App\Models\Report;
 
 class ReportController extends Controller
 {
     private ReportRepositoryInterface $reportRepository;
-
     private ReportCategoryRepositoryInterface $reportCategoryRepository;
     private ResidentRepositoryInterface $residentRepository;
 
@@ -31,8 +30,10 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = $this->reportRepository->getAllReports();
-
+        $reports = Report::with(['resident.user', 'reportCategory', 'reportStatuses'])
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);  // 5 laporan per halaman
+        
         return view('pages.admin.report.index', compact('reports'));
     }
 
@@ -63,6 +64,7 @@ class ReportController extends Controller
 
         return redirect()->route('admin.report.index');
     }
+    
     /**
      * Display the specified resource.
      */

@@ -44,7 +44,7 @@
                         @elseif ($report->reportStatuses->last()?->status === 'completed')
                         <div class="badge-status done">Selesai</div>
                         @elseif ($report->reportStatuses->last()?->status === 'rejected')
-                        <div class="badge-status">Ditolak</div>
+                        <div class="badge-status rejected">Ditolak</div>
                         @endif
                     </div>
                     <div class="d-flex justify-content-between align-items-start mb-1 mt-2 px-1">

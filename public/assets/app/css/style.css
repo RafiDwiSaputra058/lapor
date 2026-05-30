@@ -592,6 +592,11 @@ textarea.form-control {
     background-color: #16752B;
 }
 
+.badge-status.rejected {
+    background-color: #FFF0F0;
+    color: #C92A2A;
+}
+
 .icon {
     width: 18px;
     height: 18px;

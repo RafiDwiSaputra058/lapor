@@ -4,7 +4,7 @@
 
 @section('content')
 {{-- Di sini Anda hanya memasukkan bagian yang akan muncul di dalam div container layout --}}
-<h5 class="fw-bold mt-5">Selamat datang di Lapor Pak 👋</h5>
+<h5 class="fw-bold mt-5">Selamat datang di LaporIn 👋</h5>
 <p class="text-muted mt-2">Silahkan masuk untuk melanjutkan</p>
 
 <button class="btn btn-primary py-2 w-100 mt-4" type="button">

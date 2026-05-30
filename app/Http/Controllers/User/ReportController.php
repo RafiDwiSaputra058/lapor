@@ -101,6 +101,8 @@ class ReportController extends Controller
     }
 
 
+
+
     public function analyzeImage(Request $request)
     {
         $request->validate(['image' => 'required|image|max:5120']);

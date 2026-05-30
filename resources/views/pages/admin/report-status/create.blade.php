@@ -1,69 +1,46 @@
-@extends ('layouts.admin')
+@extends('layouts.admin')
 
 @section('title', 'Tambah Data Status Laporan')
 
 @section('content')
-<!-- Page Heading -->
-<a href="{{ route('admin.report.show', $report->id) }}" class="btn btn-danger mb-3">Kembali</a>
 
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Tambah Status Laporan</h4>
+    <a href="{{ route('admin.report.show', $report->id) }}" class="btn btn-danger">Kembali</a>
+</div>
 
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Tambah Data Progres Laporan {{ $report->code }}</h6>
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+        <h6 class="m-0 fw-bold">Form Tambah Status</h6>
     </div>
     <div class="card-body">
         <form action="{{ route('admin.report-status.store') }}" method="POST" enctype="multipart/form-data">
-
             @csrf
-            {{-- Tambahkan ini --}}
             <input type="hidden" name="report_id" value="{{ $report->id }}">
-            <div class="form-group">
-                <label for="image">Bukti</label>
-                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
-                @error('image')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div>
 
-
-            <div class="form-group">
-                <label for="status">Status</label>
-
-                <select name="status" class="form-control @error('status') is-invalid @enderror">
-                    <option value="pending" @if(old('status')=='pending' ) selected @endif>Pending</option>
-                    <option value="in_progress" @if(old('status')=='in_progress' ) selected @endif>In Progress</option>
-                    <option value="completed" @if(old('status')=='completed' ) selected @endif>Completed</option>
-                    <option value="rejected" @if(old('status')=='rejected' ) selected @endif>Rejected</option>
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">Diproses</option>
+                    <option value="completed">Selesai</option>
+                    <option value="rejected">Ditolak</option>
                 </select>
-
-
-                @error('status')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
             </div>
 
-
-            <div class="form-group">
-
-                <label for="description">Deskripsi</label>
-                <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description" value="{{ old('description') }}" rows="5">{{ old('description') }}</textarea>
-                @error('description')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
+            <div class="mb-3">
+                <label class="form-label">Deskripsi</label>
+                <textarea class="form-control" name="description" rows="3"></textarea>
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Bukti</label>
+                <input type="file" class="form-control" name="image" accept="image/*">
+            </div>
 
-
-
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
 </div>
+
 @endsection

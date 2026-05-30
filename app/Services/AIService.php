@@ -82,7 +82,6 @@ class AIService
         return $result;
     }
 
-
     public function calculateUrgencyScore(array $aiResult, float $latitude, float $longitude): int
     {
         $score = 0;
@@ -118,7 +117,6 @@ class AIService
 
         return min($score, 100);
     }
-
 
     private function defaultResult(): array
     {

@@ -51,14 +51,19 @@
                             Selesai
                         </div>
                         @endif
+
+                        @if ($report->reportStatuses->last()->status === 'rejected')
+                        <div class="badge-status rejected">
+                            Ditolak
+                        </div>
+                        @endif
+
+
                     </div>
 
                     <div class="d-flex justify-content-between align-items-end mb-2">
-                        <div class="d-flex align-items-center ">
-                            <img src="assets/images/icons/MapPin.png" alt="map pin" class="icon me-2">
-                            <p class="text-primary city">
-                                {{ $report->address }}
-                            </p>
+                        <div class="d-flex align-items-center">
+                            <p class="text-primary city"><i class="fas fa-location-dot me-1"></i>{{ Str::limit($report->address, 40) }}</p>
                         </div>
 
                         <p class="text-secondary date">
