@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/create-report', [UserReportController::class, 'store'])->name('report.store');
     Route::get('/report-success', [UserReportController::class, 'success'])->name('report.success');
     Route::get('/my-report', [UserReportController::class, 'myReport'])->name('report.myreport');
+    Route::get('/notifications', [ProfileController::class, 'notifications'])->name('notifications');
     
     // Rute Profil & Avatar
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');

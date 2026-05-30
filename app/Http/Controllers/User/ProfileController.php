@@ -43,4 +43,12 @@ class ProfileController extends Controller
         // 3. Kembali dengan pesan sukses
         return back()->with('status', 'Kata sandi berhasil diperbarui!');
     }
+
+    public function notifications()
+    {
+    // Mengambil laporan milik user login, diurutkan dari yang terbaru
+        $reports = Auth::user()->resident->reports()->with('reportStatuses')->latest()->get();
+
+        return view('pages.app.notification', compact('reports'));
+    }
 }

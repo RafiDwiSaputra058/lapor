@@ -12,14 +12,19 @@
         <i class="fas fa-solid fa-clipboard-list"></i>
         Laporanmu
     </a>
+    
+    {{-- Spacer untuk tombol kamera --}}
     <div></div>
     <div></div>
     <div></div>
     <div></div>
-    <a href="" class="">
+    
+    {{-- Tombol Notifikasi yang sudah diaktifkan --}}
+    <a href="{{ route('notifications') }}" class="{{ request()->routeIs('notifications') ? 'active' : '' }}">
         <i class="fas fa-bell"></i>
         Notifikasi
     </a>
+    
     @auth
     <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
         <i class="fas fa-user"></i>
