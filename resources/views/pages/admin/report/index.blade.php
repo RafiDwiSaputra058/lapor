@@ -135,7 +135,7 @@
                             @endif
                         </td>
 
-                        {{-- Kolom Aksi (Rata Tengah dengan justify-content-center) --}}
+
                         <td class="py-3 text-center">
                             <div class="d-flex gap-2 justify-content-center">
                                 <a href="{{ route('admin.report.show', $report->id) }}" class="btn btn-sm btn-light text-primary border-0 p-2 d-inline-flex align-items-center justify-content-center rounded-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Laporan" style="width: 32px; height: 32px;"><i class="fas fa-eye fs-6"></i></a>
