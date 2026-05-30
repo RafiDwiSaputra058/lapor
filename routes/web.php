@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\ProfileController;
 
 
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
@@ -28,15 +29,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/create-report', [UserReportController::class, 'create'])->name('report.create');
     Route::post('/create-report', [UserReportController::class, 'store'])->name('report.store');
     Route::get('/report-success', [UserReportController::class, 'success'])->name('report.success');
-
     Route::get('/my-report', [UserReportController::class, 'myReport'])->name('report.myreport');
-
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+
 
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');

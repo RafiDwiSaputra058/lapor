@@ -26,11 +26,10 @@ class RegisterController extends Controller
     public function store(StoreResidentRequest $request)
     {
         $data = $request->validated();
-
-        $data['avatar'] = $request->file('avatar')->store('asset/avatar', 'public');
+        $data['avatar'] = 'asset/avatar/default.png';
 
         $this->residentRepository->createResident($data);
 
-        return redirect()->route('login')->with('success', "Yeyy Pendaftaran Bergasil. Silahkan Login");
+        return redirect()->route('login')->with('success', "Yeyy Pendaftaran Berhasil. Silahkan Login");
     }
 }

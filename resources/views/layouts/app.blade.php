@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="container" style="max-width: 576px;">
+    <div class="container" style="max-width: 576px; padding-top: 20px; padding-bottom: 90px;">
         @yield('content')
     </div>
 

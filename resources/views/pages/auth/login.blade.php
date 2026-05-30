@@ -1,4 +1,4 @@
-@extends('layouts.no-nav')
+@extends('layouts.auth')
 
 @section('title', 'login')
 

@@ -8,8 +8,8 @@
         Browsermu tidak mendukung bro, upgrade donk!
     </video>
 
-    <div class="d-flex justify-content-center mt-3 position-absolute bottom-0">
-        <button class="btn btn-primary btn-snap mb-3 " onclick="takeSnapshot()">
+    <div style="position:fixed; bottom:200px; left:50%; transform:translateX(-50%); z-index:2;">
+        <button class="btn btn-primary btn-snap" onclick="takeSnapshot()">
             <i class="fas fa-camera"></i>
         </button>
     </div>

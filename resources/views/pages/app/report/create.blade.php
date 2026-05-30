@@ -180,7 +180,7 @@
                 contentDiv.style.display = 'block';
 
                 // Tampilkan hasil
-                document.getElementById('ai-infra').textContent = '🏗️ ' + data.infrastructure_type;
+                document.getElementById('ai-infra').textContent = data.infrastructure_type;
                 document.getElementById('ai-reasoning').textContent = data.reasoning;
 
                 // Severity badge warna
@@ -191,7 +191,7 @@
                     'Berat': 'bg-danger'
                 };
                 severityEl.className = 'badge ' + (colors[data.severity] || 'bg-secondary');
-                severityEl.textContent = '⚠️ ' + data.severity;
+                severityEl.textContent = data.severity;
 
                 // Auto-fill kategori jika cocok
                 var select = document.querySelector('select[name="report_category_id"]');

@@ -8,7 +8,7 @@
         <i class="fas fa-house"></i>
         Beranda
     </a>
-    <a href="{{ route('report.myreport', ['status' => 'delivered']) }}" class="">
+    <a href="{{ route('report.myreport') }}" class="{{ request()->routeIs('report.myreport') ? 'active' : '' }}">
         <i class="fas fa-solid fa-clipboard-list"></i>
         Laporanmu
     </a>
@@ -21,7 +21,7 @@
         Notifikasi
     </a>
     @auth
-    <a href="{{ route('profile') }}" class="">
+    <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
         <i class="fas fa-user"></i>
         Profil
     </a>

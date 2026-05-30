@@ -18,7 +18,7 @@ class StoreResidentRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
-            'avatar' => 'required|file'
+
         ];
     }
 }

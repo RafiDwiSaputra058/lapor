@@ -1,4 +1,4 @@
-@extends('layouts.no-nav')
+@extends('layouts.auth')
 
 @section('title', 'Daftar')
 
@@ -31,15 +31,7 @@
         @enderror
     </div>
 
-    <div class="mb-3">
-        <label for="avatar" class="form-label">Foto Profil</label>
-        <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar" name="avatar">
-        @error('avatar')
-        <div class="invalid-feedback">
-            {{ $message }}
-        </div>
-        @enderror
-    </div>
+
 
     <div class="mb-3">
         <label for="password" class="form-label">Password</label>

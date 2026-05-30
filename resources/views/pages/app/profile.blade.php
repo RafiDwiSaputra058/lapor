@@ -4,15 +4,36 @@
 
 @section('content')
 <div class="d-flex flex-column justify-content-center align-items-center gap-2">
-    <img src="{{ asset('storage/' . Auth::user()->resident->avatar) }}" alt="avatar" class="avatar">
+    <div class="position-relative">
+        <img src="{{ asset('storage/' . Auth::user()->resident->avatar) }}" alt="avatar" class="avatar">
+        <label for="avatar-input" class="position-absolute bottom-0 end-0 rounded-circle d-flex align-items-center justify-content-center"
+            style="width:30px;height:30px;background:var(--primary);cursor:pointer;">
+            <i class="fas fa-camera text-white" style="font-size:12px;"></i>
+        </label>
+    </div>
     <h5>{{ Auth::user()->name }}</h5>
+
+    @if(session('success'))
+    <small class="text-success">{{ session('success') }}</small>
+    @endif
+
+    <form action="{{ route('profile.avatar') }}" method="POST" enctype="multipart/form-data" id="avatar-form">
+        @csrf
+        <input type="file" id="avatar-input" name="avatar" class="d-none" accept="image/*"
+            onchange="document.getElementById('avatar-form').submit()">
+    </form>
 </div>
 
 <div class="row mt-4">
     <div class="col-6">
         <div class="card profile-stats">
             <div class="card-body">
-                <h5 class="card-title">2</h5>
+                <h5 class="card-title">
+                    {{ Auth::user()->resident->reports()
+        ->whereHas('reportStatuses', fn($q) => $q->whereIn('status', ['pending','in_progress'])
+        ->whereIn('id', fn($s) => $s->selectRaw('MAX(id)')->from('report_statuses')->groupBy('report_id')))
+        ->count() }}
+                </h5>
                 <p class="card-text">Laporan Aktif</p>
             </div>
         </div>
@@ -21,7 +42,12 @@
     <div class="col-6">
         <div class="card profile-stats">
             <div class="card-body">
-                <h5 class="card-title">3</h5>
+                <h5 class="card-title">
+                    {{ Auth::user()->resident->reports()
+        ->whereHas('reportStatuses', fn($q) => $q->where('status', 'completed')
+        ->whereIn('id', fn($s) => $s->selectRaw('MAX(id)')->from('report_statuses')->groupBy('report_id')))
+        ->count() }}
+                </h5>
                 <p class="card-text">Laporan Selesai</p>
             </div>
         </div>

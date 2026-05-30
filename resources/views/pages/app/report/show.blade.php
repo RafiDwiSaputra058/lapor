@@ -69,40 +69,26 @@
                 <span class="me-2">
                     :
                 </span>
-                @if ($report->reportStatuses->last()->status === 'pending')
-                <div class="badge-pending ">
-                    <img src="{{ asset('assets/app/images/icons/CircleNotch.svg') }}" alt="pending">
-
+                @if ($report->reportStatuses->last()?->status === 'pending')
+                <div class="badge-pending">
+                    <i class="fas fa-clock"></i>
                     <p>Terkirim</p>
                 </div>
-
-                @endif
-
-                @if ($report->reportStatuses->last()->status === 'in_progress')
-                <div class="badge-pending ">
-                    <img src="{{ asset('assets/app/images/icons/CircleNotch.svg') }}" alt="pending">
-
-                    <p>Terkirim</p>
+                @elseif ($report->reportStatuses->last()?->status === 'in_progress')
+                <div class="badge-pending">
+                    <i class="fas fa-spinner"></i>
+                    <p>Diproses</p>
                 </div>
-
-                @endif
-
-                @if ($report->reportStatuses->last()->status === 'completed')
-                <div class="badge-success ">
-                    <img src="{{ asset('assets/app/images/icons/CircleNotch.svg') }}" alt="pending">
-
+                @elseif ($report->reportStatuses->last()?->status === 'completed')
+                <div class="badge-success">
+                    <i class="fas fa-check-circle"></i>
                     <p>Selesai</p>
                 </div>
-
-                @endif
-
-                @if ($report->reportStatuses->last()->status === 'rejected')
-                <div class="badge-pending ">
-
-
-                    <p>Selesai</p>
+                @elseif ($report->reportStatuses->last()?->status === 'rejected')
+                <div class="badge-pending">
+                    <i class="fas fa-times-circle"></i>
+                    <p>Ditolak</p>
                 </div>
-
                 @endif
 
             </div>
@@ -115,13 +101,13 @@
 @if($report->ai_infrastructure_type)
 <div class="card card-report-information mt-4">
     <div class="card-body">
-        <div class="card-title mb-4 fw-bold">🤖 Analisis AI</div>
+        <div class="card-title mb-4 fw-bold">Analisis AI</div>
 
         <div class="row mb-3">
             <div class="col-4 text-secondary">Infrastruktur</div>
             <div class="col-8 d-flex">
                 <span class="me-2">:</span>
-                <p class="text-capitalize">🏗️ {{ $report->ai_infrastructure_type }}</p>
+                <p class="text-capitalize">{{ $report->ai_infrastructure_type }}</p>
             </div>
         </div>
 
@@ -131,11 +117,11 @@
                 <span class="me-2">:</span>
                 <p>
                     @if($report->ai_severity == 'Berat')
-                    <span class="badge bg-danger">⚠️ Berat</span>
+                    <span class="badge bg-danger">Berat</span>
                     @elseif($report->ai_severity == 'Sedang')
-                    <span class="badge bg-warning text-dark">⚠️ Sedang</span>
+                    <span class="badge bg-warning text-dark">Sedang</span>
                     @else
-                    <span class="badge bg-success">⚠️ Ringan</span>
+                    <span class="badge bg-success">Ringan</span>
                     @endif
                 </p>
             </div>
