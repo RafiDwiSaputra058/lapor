@@ -78,7 +78,7 @@ class DashboardController extends Controller
             // 6. Buat nama file dinamis dengan Carbon (Tanggal & Jam)
             // Hasilnya nanti misal: 28-05-2026_14-30
             $tanggal = \Carbon\Carbon::now()->format('d-m-Y_H-i');
-            $namaFile = "Laporan Pengaduan Masyarakat-1 ({$tanggal}).pdf";
+            $namaFile = "Laporan Pengaduan Masyarakat ({$tanggal}).pdf";
 
             // 7. Langsung download ke laptop admin dengan nama baru!
             return $pdf->download($namaFile);
