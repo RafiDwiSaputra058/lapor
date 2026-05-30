@@ -4,7 +4,6 @@
 
 @section('content')
 
-<!-- Header -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h4 class="fw-bold mb-1">📋 Data Laporan</h4>
@@ -22,7 +21,6 @@
 </div>
 @endif
 
-<!-- Statistik -->
 <div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="card bg-primary text-white">
@@ -30,7 +28,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="mb-1">Total Laporan</h6>
-                        <h2 class="mb-0">{{ \App\Models\Report::count() }}</h2>
+                        <h2 class="mb-0">{{ $totalLaporan }}</h2>
                     </div>
                     <i class="fas fa-file-alt fa-2x opacity-50"></i>
                 </div>
@@ -43,7 +41,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="mb-1">Selesai</h6>
-                        <h2 class="mb-0">{{ \App\Models\ReportStatus::where('status', 'completed')->count() }}</h2>
+                        <h2 class="mb-0">{{ $selesai }}</h2>
                     </div>
                     <i class="fas fa-check-circle fa-2x opacity-50"></i>
                 </div>
@@ -56,7 +54,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="mb-1">Diproses</h6>
-                        <h2 class="mb-0">{{ \App\Models\ReportStatus::where('status', 'in_progress')->count() }}</h2>
+                        <h2 class="mb-0">{{ $diproses }}</h2>
                     </div>
                     <i class="fas fa-spinner fa-2x opacity-50"></i>
                 </div>
@@ -69,7 +67,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="mb-1">Pending</h6>
-                        <h2 class="mb-0">{{ \App\Models\ReportStatus::where('status', 'pending')->count() }}</h2>
+                        <h2 class="mb-0">{{ $pending }}</h2>
                     </div>
                     <i class="fas fa-clock fa-2x opacity-50"></i>
                 </div>
@@ -78,7 +76,6 @@
     </div>
 </div>
 
-<!-- Indikator Kedaruratan -->
 <div class="card bg-light mb-4 border-0 rounded-3">
     <div class="card-body py-2">
         <div class="d-flex gap-4 align-items-center flex-wrap">
@@ -99,7 +96,6 @@
     </div>
 </div>
 
-<!-- Tabel -->
 <div class="card shadow-sm rounded-4">
     <div class="card-header bg-white rounded-top-4 py-3 border-0">
         <div class="row align-items-center">
@@ -190,27 +186,6 @@
                             </div>
                         </td>
                     </tr>
-
-                    <!-- Modal Delete -->
-                    <div class="modal fade" id="deleteModal" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content rounded-3">
-                                <div class="modal-body text-center p-4">
-                                    <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
-                                    <h5 class="fw-bold mb-2">Hapus Laporan?</h5>
-                                    <p class="text-muted small" id="deleteMessage">Yakin ingin menghapus laporan ini?</p>
-                                </div>
-                                <div class="modal-footer border-0 justify-content-center gap-2 pb-4">
-                                    <button type="button" class="btn btn-secondary btn-sm px-3 rounded-3" data-bs-dismiss="modal">Batal</button>
-                                    <form id="deleteForm" action="" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm px-3 rounded-3">Hapus</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     @empty
                     <tr>
                         <td colspan="8" class="text-center py-5">
@@ -224,7 +199,6 @@
         </div>
     </div>
 
-    <!-- Pagination -->
     <div class="card-footer bg-white rounded-bottom-4 py-3">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div class="text-muted small">
@@ -275,6 +249,26 @@
                     </ul>
                 </nav>
                 @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content rounded-3">
+            <div class="modal-body text-center p-4">
+                <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
+                <h5 class="fw-bold mb-2">Hapus Laporan?</h5>
+                <p class="text-muted small" id="deleteMessage">Yakin ingin menghapus laporan ini?</p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center gap-2 pb-4">
+                <button type="button" class="btn btn-secondary btn-sm px-3 rounded-3" data-bs-dismiss="modal">Batal</button>
+                <form id="deleteForm" action="" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm px-3 rounded-3">Hapus</button>
+                </form>
             </div>
         </div>
     </div>
