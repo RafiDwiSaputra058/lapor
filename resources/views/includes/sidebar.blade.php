@@ -1,4 +1,4 @@
-<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #0a1a3a; position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 1020;">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #0a1a3a; position: sticky; top: 0; height: 100vh; overflow-y: auto; overflow-x: hidden; z-index: 1020;">
 
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
         <div class="sidebar-brand-text mx-3">Lapor DPM</div>
