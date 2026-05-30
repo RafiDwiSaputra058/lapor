@@ -1,128 +1,83 @@
-@extends ('layouts.admin')
+@extends('layouts.admin')
 
 @section('title', 'Tambah Data Laporan')
 
 @section('content')
-<!-- Page Heading -->
-<a href="{{ route('admin.report.index') }}" class="btn btn-danger mb-3">Kembali</a>
 
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Tambah Laporan</h4>
+    <a href="{{ route('admin.report.index') }}" class="btn btn-danger">
+        <i class="fas fa-arrow-left me-1"></i> Kembali
+    </a>
+</div>
 
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Tambah Data Laporan</h6>
+<div class="card">
+    <div class="card-header">
+        <h5>Form Tambah Laporan</h5>
     </div>
     <div class="card-body">
         <form action="{{ route('admin.report.store') }}" method="POST" enctype="multipart/form-data">
-
             @csrf
-            <div class="form-group">
-                <label for="code">Kode</label>
-                <input type="text" class="form-control @error('code') is-invalid @enderror" id="code" name="code" value="AUTO" disabled>
-                @error('code')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
+
+            <div class="mb-3">
+                <label>Kode</label>
+                <input type="text" class="form-control" value="AUTO" disabled>
             </div>
-            <div class="form-group">
-                <label for="resident">Pelapor</label>
-                <select name="resident_id" class="form-control @error('resident_id') is-invalid @enderror">
+
+            <div class="mb-3">
+                <label>Pelapor</label>
+                <select name="resident_id" class="form-control">
+                    <option>Pilih Pelapor</option>
                     @foreach ($residents as $resident)
-                    <option value="{{ $resident->id }}" @if (old('resident_id')==$resident->id) selected @endif>
-                        {{ $resident->user->email }} - {{ $resident->user->name }}
-
-
-
-                    </option>
+                    <option value="{{ $resident->id }}">{{ $resident->user->name }}</option>
                     @endforeach
                 </select>
-                @error('resident')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
             </div>
-            <div class="form-group">
-                <label for="category">Kategori Laporan</label>
-                <select name="report_category_id" class="form-control @error('report_category_id') is-invalid @enderror">
+
+            <div class="mb-3">
+                <label>Kategori</label>
+                <select name="report_category_id" class="form-control">
+                    <option>Pilih Kategori</option>
                     @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" @if (old('report_category_id')==$category->id) selected @endif>
-                        {{ $category->name }}
-                    </option>
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
-                @error('report_category_id')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="title">Judul Laporan</label>
-                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}">
-                @error('title')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
             </div>
 
-
-
-
-            <div class="form-group">
-                <label for="description">Deskripsi Laporan</label>
-                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" value="{{ old('description') }}" rows="5"></textarea>
-                @error('description')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
+            <div class="mb-3">
+                <label>Judul</label>
+                <input type="text" class="form-control" name="title">
             </div>
 
-            <div class="form-group">
-                <label for="image">Bukti Laporan</label>
-                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
-                @error('image')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
+            <div class="mb-3">
+                <label>Deskripsi</label>
+                <textarea class="form-control" name="description" rows="4"></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="latitude">Latitude</label>
-                <input type="text" class="form-control @error('latitude') is-invalid @enderror" id="latitude" name="latitude" value="{{ old('latitude') }}">
-                @error('latitude')
-                <div class="invalid-feedback">
-                    {{ $message }}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Latitude</label>
+                    <input type="text" class="form-control" name="latitude">
                 </div>
-                @enderror
+                <div class="col-md-6 mb-3">
+                    <label>Longitude</label>
+                    <input type="text" class="form-control" name="longitude">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="longitude">Longitude</label>
-                <input type="text" class="form-control @error('longitude') is-invalid @enderror" id="longitude" name="longitude" value="{{ old('longitude') }}">
-                @error('longitude')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
+            <div class="mb-3">
+                <label>Alamat</label>
+                <textarea class="form-control" name="address" rows="2"></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="address">Alamat</label>
-                <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address') }}" rows="5"></textarea>
-                @error('address')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
+            <div class="mb-3">
+                <label>Bukti</label>
+                <input type="file" class="form-control" name="image">
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
 </div>
+
 @endsection

@@ -1,62 +1,77 @@
-@extends ('layouts.admin')
+@extends('layouts.admin')
 
 @section('title', 'Edit Data Warga')
 
 @section('content')
-<!-- Page Heading -->
-<a href="{{ route('admin.resident.index') }}" class="btn btn-danger mb-3">Kembali</a>
 
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Edit Data Warga</h4>
+    <a href="{{ route('admin.resident.index') }}" class="btn btn-danger">
+        <i class="fas fa-arrow-left me-1"></i> Kembali
+    </a>
+</div>
 
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+        <h6 class="mb-0 fw-bold text-primary">
+            </i> Form Edit Warga
+        </h6>
     </div>
     <div class="card-body">
         <form action="{{ route('admin.resident.update', $resident->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <div class="form-group">
-                <label for="name">Nama</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $resident->user->name) }}">
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Nama Lengkap</label>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                       name="name" value="{{ old('name', $resident->user->name) }}" required>
                 @error('name')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+                    <div class="text-danger small mt-1">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $resident->user->email) }}" readonly>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input type="email" class="form-control bg-light" 
+                       name="email" value="{{ old('email', $resident->user->email) }}" readonly>
                 @error('email')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+                    <div class="text-danger small mt-1">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                       name="password" placeholder="Kosongkan jika tidak diubah">
                 @error('password')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+                    <div class="text-danger small mt-1">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="avatar">Foto Profil</label>
-                <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar" name="avatar">
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Foto Profil</label>
+                @if($resident->avatar)
+                    <div class="mb-2">
+                        <img src="{{ asset('storage/'. $resident->avatar) }}" 
+                             width="60" height="60" class="rounded-circle border">
+                        <br>
+                        <small class="text-muted">Foto saat ini</small>
+                    </div>
+                @endif
+                <input type="file" class="form-control @error('avatar') is-invalid @enderror" 
+                       name="avatar" accept="image/*">
                 @error('avatar')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+                    <div class="text-danger small mt-1">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <hr>
+            <button type="submit" class="btn btn-primary px-4">
+                <i class="fas fa-save me-1"></i> Update
+            </button>
         </form>
     </div>
 </div>
+
 @endsection
