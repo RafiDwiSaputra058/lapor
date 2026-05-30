@@ -30,8 +30,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/create-report', [UserReportController::class, 'store'])->name('report.store');
     Route::get('/report-success', [UserReportController::class, 'success'])->name('report.success');
     Route::get('/my-report', [UserReportController::class, 'myReport'])->name('report.myreport');
+    
+    // Rute Profil & Avatar
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
+    
+    // TAMBAHAN: Rute untuk Ganti Password Dummy
+    Route::post('/profile/password-dummy', [ProfileController::class, 'updatePasswordDummy'])->name('profile.password.update.dummy');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
